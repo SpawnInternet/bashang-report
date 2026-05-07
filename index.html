@@ -497,7 +497,7 @@ function renderSubs(){
       const grp=data.filter(d=>d.area===a);
       const grpArrears=grp.reduce((s,d)=>s+d.arrears,0);
       const grpEst=grp.reduce((s,d)=>s+d.est_monthly,0);
-      html+=`<tr class="area-group-header"><td colspan="10">${a} &nbsp;·&nbsp; ${grp.length} subscribers &nbsp;·&nbsp; Est. arrears: ₱${grpArrears.toLocaleString()}</td></tr>`;
+      html+=`<tr class="area-group-header"><td colspan="10">${a} &nbsp;·&nbsp; ${grp.length} subscribers &nbsp;·&nbsp; Total arrears: ₱${grpArrears.toLocaleString()} &nbsp;·&nbsp; Est./mo: ₱${grpEst.toLocaleString()}</td></tr>`;
       grp.forEach(x=>{
         html+=`<tr>
           <td class="name">${x.name}</td>
@@ -512,7 +512,7 @@ function renderSubs(){
           <td class="tech">${techSel('sub',x.name)}</td>
         </tr>`;
       });
-      html+=`<tr class="area-subtotal"><td colspan="6">Area subtotal — ${a}</td><td></td><td class="r">₱ ${grpArrears.toLocaleString()}</td><td class="r">~₱ ${grpEst.toLocaleString()}</td><td></td></tr>`;
+      html+=`<tr class="area-subtotal"><td colspan="3">Subtotal — ${a} (${grp.length})</td><td></td><td></td><td class="r">${grp.reduce((s,d)=>s+d.last_amount,0)>0?"₱ "+grp.reduce((s,d)=>s+d.last_amount,0).toLocaleString():"—"}</td><td class="r" style="color:var(--red)">₱ ${grpArrears.toLocaleString()}</td><td class="r" style="color:var(--amber)">~₱ ${grpEst.toLocaleString()}</td><td></td></tr>`;
     });
   } else {
     data.forEach(x=>{
@@ -559,7 +559,7 @@ function renderVendo(){
     areas.forEach(a=>{
       const grp=data.filter(d=>d.area===a);
       const grpEst=grp.reduce((s,d)=>s+d.est_monthly,0);
-      html+=`<tr class="area-group-header"><td colspan="7">${a} &nbsp;·&nbsp; ${grp.length} vendos &nbsp;·&nbsp; Est. collectable: ₱${grpEst.toLocaleString()}</td></tr>`;
+      html+=`<tr class="area-group-header"><td colspan="7">${a} &nbsp;·&nbsp; ${grp.length} vendos &nbsp;·&nbsp; Last total: ₱${grp.reduce((s,d)=>s+d.last_amount,0).toLocaleString()} &nbsp;·&nbsp; Est./mo: ₱${grpEst.toLocaleString()}</td></tr>`;
       grp.forEach(x=>{
         html+=`<tr>
           <td class="name">${x.name}</td>
@@ -571,7 +571,7 @@ function renderVendo(){
           <td class="tech">${techSel('vendo',x.name)}</td>
         </tr>`;
       });
-      html+=`<tr class="area-subtotal"><td colspan="4">Area subtotal — ${a}</td><td></td><td class="r">~₱ ${grpEst.toLocaleString()}</td><td></td></tr>`;
+      html+=`<tr class="area-subtotal"><td colspan="2">Subtotal — ${a} (${grp.length})</td><td></td><td></td><td class="r">${grp.reduce((s,d)=>s+d.last_amount,0)>0?"₱ "+grp.reduce((s,d)=>s+d.last_amount,0).toLocaleString():"—"}</td><td class="r" style="color:var(--amber)">~₱ ${grpEst.toLocaleString()}</td><td></td></tr>`;
     });
   } else {
     data.forEach(x=>{
