@@ -309,7 +309,7 @@ table.modal-tbl tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="chart-body" style="padding:20px 16px 12px">
-      <canvas id="areaChart" height="260"></canvas>
+      <div style="position:relative;height:240px"><canvas id="areaChart"></canvas></div>
     </div>
   </div>
 
@@ -318,13 +318,13 @@ table.modal-tbl tbody tr:last-child td{border-bottom:none}
     <div class="chart-section">
       <div class="chart-head">YTD Share by Area</div>
       <div class="chart-body" style="padding:16px;display:flex;justify-content:center">
-        <canvas id="pieChart" width="260" height="260"></canvas>
+        <div style="position:relative;width:220px;height:220px"><canvas id="pieChart"></canvas></div>
       </div>
     </div>
     <div class="chart-section">
       <div class="chart-head">YTD Share by Category (WiFi vs Subscribers)</div>
       <div class="chart-body" style="padding:16px;display:flex;justify-content:center">
-        <canvas id="catChart" width="260" height="260"></canvas>
+        <canvas id="catChart" style="max-height:220px;max-width:220px"></canvas>
       </div>
     </div>
   </div>
@@ -333,7 +333,7 @@ table.modal-tbl tbody tr:last-child td{border-bottom:none}
   <div class="chart-section">
     <div class="chart-head">Monthly Trend per Area</div>
     <div class="chart-body" style="padding:16px 16px 12px">
-      <canvas id="trendChart" height="220"></canvas>
+      <div style="position:relative;height:200px"><canvas id="trendChart"></canvas></div>
     </div>
   </div>
 </div>
@@ -550,6 +550,7 @@ function buildAreaChart(){
         legend: { position:'bottom', labels:{ font:{family:"IBM Plex Sans",size:11}, boxWidth:12, padding:16 } },
         tooltip: { callbacks:{ label: c=>' '+c.dataset.label+': ₱'+c.parsed.y.toLocaleString() } }
       },
+      maintainAspectRatio: false,
       scales: {
         x: { stacked: currentChartType==='stacked', grid:{display:false}, ticks:{font:{family:"IBM Plex Mono",size:11}} },
         y: { stacked: currentChartType==='stacked', ticks:{callback:v=>'₱'+( v>=1000000?(v/1000000).toFixed(1)+'M':(v/1000).toFixed(0)+'K'),font:{family:"IBM Plex Mono",size:11}}, grid:{color:'rgba(0,0,0,.05)'} }
@@ -571,6 +572,7 @@ function buildPieCharts(){
     },
     options:{
       cutout:'62%',
+      maintainAspectRatio:false,
       plugins:{
         legend:{position:'bottom',labels:{font:{family:"IBM Plex Sans",size:10},boxWidth:10,padding:10}},
         tooltip:{callbacks:{label:c=>' '+c.label+': ₱'+c.parsed.toLocaleString()+' ('+Math.round(c.parsed/totals.reduce((a,b)=>a+b,0)*100)+'%)'}}
@@ -591,6 +593,7 @@ function buildPieCharts(){
     },
     options:{
       cutout:'62%',
+      maintainAspectRatio:false,
       plugins:{
         legend:{position:'bottom',labels:{font:{family:"IBM Plex Sans",size:11},boxWidth:10,padding:10}},
         tooltip:{callbacks:{label:c=>' '+c.label+': ₱'+c.parsed.toLocaleString()+' ('+Math.round(c.parsed/(wifiTot+subTot)*100)+'%)'}}
@@ -618,6 +621,7 @@ function buildTrendChart(){
     },
     options:{
       responsive:true,
+      maintainAspectRatio:false,
       interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{position:'bottom',labels:{font:{family:"IBM Plex Sans",size:11},boxWidth:12,padding:14}},
